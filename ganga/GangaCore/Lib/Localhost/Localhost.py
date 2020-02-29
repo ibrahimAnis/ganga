@@ -213,11 +213,13 @@ class Localhost(IBackend):
 
         import inspect
         script_location = os.path.join(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))),
-                                                        'LocalHostExec.py.template')
+                                                        '../BackendScriptTemplate.py.template')
 
         from GangaCore.GPIDev.Lib.File import FileUtils
         script = FileUtils.loadScript(script_location, '')
 
+        script = script.replace('###BACKEND###', "'LOCAL'")
+        script = script.replace('###HEARTBEATFREQUENCE###', '0')
         script = script.replace('###INLINEMODULES###', inspect.getsource(Sandbox.WNSandbox))
 
         from GangaCore.GPIDev.Lib.File.OutputFileManager import getWNCodeForOutputSandbox, getWNCodeForOutputPostprocessing, getWNCodeForDownloadingInputFiles, getWNCodeForInputdataListCreation
